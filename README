@@ -7,15 +7,17 @@ The only major fixes needed are:
 For a clear description of everything implemented, I will describe a typical flow of execution:
 
 1. The program reads in a training set of pictures of faces, these then have their pixels extracted and stored in a matrix. 
-2. A photo to search for faces in is loaded and converted to grayscale, it is also extracted to a matrix. 
+2. A photo to search for faces in is loaded and converted to grayscale, it is also extracted 
+   to a matrix. 
 3. Principal component analysis (PCA) is run on each of the face matrices.
-  3.a. A key part of PCA is a matrix factorisation called singular value decomposition (SVD). It is
-	        typically called as a library function but for masochistic reasons I decided to implement it from scratch.
-	3.b. SVD factorizes a matrix A into three matrices U,S,V. U contains the eigenvectors of AA'
-	        V contains the eigenvectors of A'A and S is a diagonal matrix containing the square roots of all the 
-          non-singular eigenvalues of A.
-	3.c. The eigenvectors and eigenvalues are calculated with a QR factorisation using the Gram 	        
-       Schmidt process and from that, the QR algorithm.
+  3.a. A key part of PCA is a matrix factorisation called singular value decomposition (SVD).
+       It is typically called as a library function but for masochistic reasons I 
+       decided to implement it from scratch.
+  3.b. SVD factorizes a matrix A into three matrices U,S,V. U contains the eigenvectors of 
+       AA', V contains the eigenvectors of A'A and S is a diagonal matrix containing the 
+       square roots of all the non-singular eigenvalues of A.
+  3.c. The eigenvectors and eigenvalues are calculated with a QR factorisation 
+       using the Gram Schmidt process and from that, the QR algorithm.
 4. A sliding window is used to scan the main photo. It repeatedly extracts a sub matrix, calculates its principal components and then compares those against the principal components of the faces. If the distance is small enough, then that sub matrix is tagged as a location of a face.
 5. Once all possible face locations are discovered, K-means clustering is used to determine which possible face location belongs to which face.
 4. A box is draw around each of the face locations on the original picture. (Currently iffy, trouble with swing).
